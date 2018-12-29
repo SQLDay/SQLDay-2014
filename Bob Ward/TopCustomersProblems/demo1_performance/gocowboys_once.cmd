@@ -1,0 +1,1 @@
+ostress -E -igocowboys.sql -q -n1 -r1 -dwhenwillthecowboysevermakeitbacktothesuperbowl

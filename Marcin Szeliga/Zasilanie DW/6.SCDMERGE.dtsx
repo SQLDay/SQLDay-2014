@@ -1,0 +1,58 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/21/2014 2:52:39 PM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="MS"
+  DTS:CreatorName="MS\Szelor"
+  DTS:DTSID="{FA709610-75E0-4BC2-A237-F54CF64F42E6}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.2100.60"
+  DTS:LocaleID="1045"
+  DTS:ObjectName="6 SCDMERGE"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{157BB318-56FE-46ED-8383-2AF49AE28752}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B75D8088-30BC-4DBA-A4EE-1EA2A7D63D9C}"
+      DTS:ExecutableType="Microsoft.SqlServer.Dts.Tasks.ExecuteSQLTask.ExecuteSQLTask, Microsoft.SqlServer.SQLTask, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2012; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2F2601A5-3F4F-4361-866B-AF81A7188849}"
+          SQLTask:SqlStatementSource="-- ==================================================&#xA;-- Slowly Changing Dimension script by SCD Merge Wizard&#xA;-- Author: Miljan Radovic&#xA;-- Official web site: https://scdmergewizard.codeplex.com/&#xA;-- Version: 4.0.0.0&#xA;-- Publish date: 2013-07-27 16:29:11&#xA;-- Script creation date: 2014-04-27 16:33:52&#xA;-- ==================================================&#xA;&#xA;&#xA;-- ==================================================&#xA;-- TRANSFORMATIONS&#xA;-- ==================================================&#xA;&#xA;-- Source : [StageV1].[dbo].[DimCustomers]&#xA;-- Target : [DW].[dbo].[DimCustomers]&#xA;-- &#xA;-- | Source Column         | Transformation | Target Column         | Custom Insert Value | Custom Update Value | Custom Delete Value |&#xA;-- ------------------------------------------------------------------------------------------------------------------------------------&#xA;-- | [BirthDate]           | SCD1           | [BirthDate]           |                     |                     |                     |&#xA;-- | [CustomerBusinessKey] | Business Key   | [CustomerBusinessKey] |                     |                     |                     |&#xA;-- |                       | SCD2 Date To   | [EndDate]             | @NullDateTime       | @CurrentDateTime    | @CurrentDateTime    |&#xA;-- | [EnglishEducation]    | SCD2           | [EnglishEducation]    |                     |                     |                     |&#xA;-- | [FirstName]           | SCD1           | [FirstName]           |                     |                     |                     |&#xA;-- | [LastName]            | SCD1           | [LastName]            |                     |                     |                     |&#xA;-- | [Phone]               | SCD0           | [Phone]               |                     |                     |                     |&#xA;-- |                       | SCD2 Date From | [StartDate]           | @CurrentDateTime    | @CurrentDateTime    |                     |&#xA;-- | [Title]               | SCD2           | [Title]               |                     |                     |                     |&#xA;-- ------------------------------------------------------------------------------------------------------------------------------------&#xA;-- &#xA;&#xA;-- ==================================================&#xA;-- USER VARIABLES&#xA;-- ==================================================&#xA;DECLARE @CurrentDateTime datetime&#xA;DECLARE @NullDateTime datetime&#xA;&#xA;SELECT&#xA;&#x9;@CurrentDateTime = cast(getdate() as datetime),&#xA;&#x9;@NullDateTime = cast(null as datetime)&#xA;&#xA;&#xA;-- ==================================================&#xA;-- SCD1&#xA;-- ==================================================&#xA;MERGE [DW].[dbo].[DimCustomers] as [target]&#xA;USING&#xA;(&#xA;&#x9;SELECT&#xA;&#x9;&#x9;[BirthDate],&#xA;&#x9;&#x9;[CustomerBusinessKey],&#xA;&#x9;&#x9;[EnglishEducation],&#xA;&#x9;&#x9;[FirstName],&#xA;&#x9;&#x9;[LastName],&#xA;&#x9;&#x9;[Phone],&#xA;&#x9;&#x9;[Title]&#xA;&#x9;FROM [StageV1].[dbo].[DimCustomers]&#xA;) as [source]&#xA;ON&#xA;(&#xA;&#x9;[source].[CustomerBusinessKey] = [target].[CustomerBusinessKey]&#xA;)&#xA;&#xA;WHEN MATCHED AND&#xA;(&#xA;&#x9;([target].[EndDate] = @NullDateTime OR ([target].[EndDate] IS NULL AND @NullDateTime IS NULL))&#xA;)&#xA;AND&#xA;(&#xA;&#x9;([source].[BirthDate] &lt;&gt; [target].[BirthDate] OR ([source].[BirthDate] IS NULL AND [target].[BirthDate] IS NOT NULL) OR ([source].[BirthDate] IS NOT NULL AND [target].[BirthDate] IS NULL)) OR&#xA;&#x9;([source].[FirstName] &lt;&gt; [target].[FirstName] OR ([source].[FirstName] IS NULL AND [target].[FirstName] IS NOT NULL) OR ([source].[FirstName] IS NOT NULL AND [target].[FirstName] IS NULL)) OR&#xA;&#x9;([source].[LastName] &lt;&gt; [target].[LastName] OR ([source].[LastName] IS NULL AND [target].[LastName] IS NOT NULL) OR ([source].[LastName] IS NOT NULL AND [target].[LastName] IS NULL))&#xA;)&#xA;AND&#xA;(&#xA;&#x9;([source].[EnglishEducation] = [target].[EnglishEducation] OR ([source].[EnglishEducation] IS NULL AND [target].[EnglishEducation] IS NULL))AND&#xA;&#x9;([source].[Title] = [target].[Title] OR ([source].[Title] IS NULL AND [target].[Title] IS NULL))&#xA;)&#xA;THEN UPDATE&#xA;SET&#xA;&#x9;[target].[BirthDate] = [source].[BirthDate],&#xA;&#x9;[target].[FirstName] = [source].[FirstName],&#xA;&#x9;[target].[LastName] = [source].[LastName]&#xA;;&#xA;&#xA;&#xA;-- ==================================================&#xA;-- SCD2&#xA;-- ==================================================&#xA;INSERT INTO [DW].[dbo].[DimCustomers]&#xA;(&#xA;&#x9;[BirthDate],&#xA;&#x9;[CustomerBusinessKey],&#xA;&#x9;[EndDate],&#xA;&#x9;[EnglishEducation],&#xA;&#x9;[FirstName],&#xA;&#x9;[LastName],&#xA;&#x9;[Phone],&#xA;&#x9;[StartDate],&#xA;&#x9;[Title]&#xA;)&#xA;SELECT&#xA;&#x9;[BirthDate],&#xA;&#x9;[CustomerBusinessKey],&#xA;&#x9;[EndDate],&#xA;&#x9;[EnglishEducation],&#xA;&#x9;[FirstName],&#xA;&#x9;[LastName],&#xA;&#x9;[Phone],&#xA;&#x9;[StartDate],&#xA;&#x9;[Title]&#xA;FROM&#xA;(&#xA;&#x9;MERGE [DW].[dbo].[DimCustomers] as [target]&#xA;&#x9;USING&#xA;&#x9;(&#xA;&#x9;&#x9;SELECT&#xA;&#x9;&#x9;&#x9;[BirthDate],&#xA;&#x9;&#x9;&#x9;[CustomerBusinessKey],&#xA;&#x9;&#x9;&#x9;[EnglishEducation],&#xA;&#x9;&#x9;&#x9;[FirstName],&#xA;&#x9;&#x9;&#x9;[LastName],&#xA;&#x9;&#x9;&#x9;[Phone],&#xA;&#x9;&#x9;&#x9;[Title]&#xA;&#x9;&#x9;FROM [StageV1].[dbo].[DimCustomers]&#xA;&#xA;&#x9;) as [source]&#xA;&#x9;ON&#xA;&#x9;(&#xA;&#x9;&#x9;[source].[CustomerBusinessKey] = [target].[CustomerBusinessKey]&#xA;&#x9;)&#xA;&#xA;&#x9;WHEN NOT MATCHED BY TARGET&#xA;&#x9;THEN INSERT&#xA;&#x9;(&#xA;&#x9;&#x9;[BirthDate],&#xA;&#x9;&#x9;[CustomerBusinessKey],&#xA;&#x9;&#x9;[EndDate],&#xA;&#x9;&#x9;[EnglishEducation],&#xA;&#x9;&#x9;[FirstName],&#xA;&#x9;&#x9;[LastName],&#xA;&#x9;&#x9;[Phone],&#xA;&#x9;&#x9;[StartDate],&#xA;&#x9;&#x9;[Title]&#xA;&#x9;)&#xA;&#x9;VALUES&#xA;&#x9;(&#xA;&#x9;&#x9;[BirthDate],&#xA;&#x9;&#x9;[CustomerBusinessKey],&#xA;&#x9;&#x9;@NullDateTime,&#xA;&#x9;&#x9;[EnglishEducation],&#xA;&#x9;&#x9;[FirstName],&#xA;&#x9;&#x9;[LastName],&#xA;&#x9;&#x9;[Phone],&#xA;&#x9;&#x9;@CurrentDateTime,&#xA;&#x9;&#x9;[Title]&#xA;&#x9;)&#xA;&#xA;&#xA;WHEN MATCHED AND&#xA;(&#xA;&#x9;([EndDate] = @NullDateTime OR ([EndDate] IS NULL AND @NullDateTime IS NULL))&#xA;)&#xA;AND&#xA;(&#xA;&#x9;([target].[EnglishEducation] &lt;&gt; [source].[EnglishEducation] OR ([target].[EnglishEducation] IS NULL AND [source].[EnglishEducation] IS NOT NULL) OR ([target].[EnglishEducation] IS NOT NULL AND [source].[EnglishEducation] IS NULL)) OR&#xA;&#x9;([target].[Title] &lt;&gt; [source].[Title] OR ([target].[Title] IS NULL AND [source].[Title] IS NOT NULL) OR ([target].[Title] IS NOT NULL AND [source].[Title] IS NULL))&#xA;&#xA;)&#xA;&#x9;THEN UPDATE&#xA;&#x9;SET&#xA;&#x9;&#x9;[EndDate] = @CurrentDateTime&#xA;&#xA;&#xA;&#x9;OUTPUT&#xA;&#x9;&#x9;$Action as [MERGE_ACTION_64395e3f-c70f-4291-b556-da6f0454f9a8],&#xA;&#x9;&#x9;[source].[BirthDate] AS [BirthDate],&#xA;&#x9;&#x9;[source].[CustomerBusinessKey] AS [CustomerBusinessKey],&#xA;&#x9;&#x9;@NullDateTime AS [EndDate],&#xA;&#x9;&#x9;[source].[EnglishEducation] AS [EnglishEducation],&#xA;&#x9;&#x9;[source].[FirstName] AS [FirstName],&#xA;&#x9;&#x9;[source].[LastName] AS [LastName],&#xA;&#x9;&#x9;[source].[Phone] AS [Phone],&#xA;&#x9;&#x9;@CurrentDateTime AS [StartDate],&#xA;&#x9;&#x9;[source].[Title] AS [Title]&#xA;&#xA;)MERGE_OUTPUT&#xA;WHERE MERGE_OUTPUT.[MERGE_ACTION_64395e3f-c70f-4291-b556-da6f0454f9a8] = 'UPDATE' &#xA;&#x9;AND MERGE_OUTPUT.[CustomerBusinessKey] IS NOT NULL&#xA;;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Execute SQL Task"
+          TopLeft="172,121" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

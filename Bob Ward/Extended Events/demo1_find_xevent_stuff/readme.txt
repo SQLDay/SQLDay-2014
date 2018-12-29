@@ -1,0 +1,1 @@
+1. Run the queries in find_xevent_objects.sql and talk about results of these queries

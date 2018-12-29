@@ -1,0 +1,67 @@
+2010-01-28 04:12:26.30 spid66 A time-out occurred while waiting for buffer latch 
+-- type 2, bp 0540D48C, page 1:2248, stat 0x6c0040d, database id: 10, 
+allocation unit Id: 101806283685888, task 0x03DB0C70 : 0, 
+waittime 300, flags 0x1a, owning task 0x03DB0C70. Not continuing to wait.
+
+2010-01-28 04:14:04.93 spid58 A time-out occurred while waiting for buffer latch 
+-- type 2, bp 054A8E70, page 1:3494896, stat 0x5c0040d, database id: 10, 
+allocation unit Id: 72057594171097088, task 0x03B97558 : 13, waittime 300, 
+flags 0x1a, owning task 0x03B97558. Not continuing to wait.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2010-01-28 04:15:23.97 spid4s      SQL Server has encountered 95 occurrence(s) of I/O requests taking longer than 15 seconds to complete on file [M:\MSSQL\Data\SENZA2_Data.mdf] in database [SENZA] (10).  The OS file handle is 0x000005A8.  The offset of the latest long I/O is: 0x0000018d4e6000
+2010-01-28 04:20:46.47 spid4s      SQL Server has encountered 11 occurrence(s) of I/O requests taking longer than 15 seconds to complete on file [M:\MSSQL\Data\SENZA2_Data.mdf] in database [SENZA] (10).  The OS file handle is 0x000005A8.  The offset of the latest long I/O is: 0x000000e4ec2000
+
+2010-01-28 04:23:41.91 spid58      A time-out occurred while waiting for buffer latch -- type 2, bp 05B14034, page 1:4558088, stat 0x2c0040d, database id: 10, allocation unit Id: 72057594048086016, task 0x03DCB000 : 0, waittime 300, flags 0x1a, owning task 0x00ED8AA8. Not continuing to wait.
+2010-01-28 04:28:37.43 spid4s      SQL Server has encountered 2 occurrence(s) of I/O requests taking longer than 15 seconds to complete on file [M:\MSSQL\Data\SENZA2_Data.mdf] in database [SENZA] (10).  The OS file handle is 0x000005A8.  The offset of the latest long I/O is: 0x000006afb10000
+2010-01-28 04:33:26.11 spid58      A time-out occurred while waiting for buffer latch -- type 2, bp 098BC00C, page 1:3505544, stat 0x7c0040d, database id: 10, allocation unit Id: 72057594171097088, task 0x03DCB000 : 0, waittime 300, flags 0x1a, owning task 0x03DCB000. Not continuing to wait.
+2010-01-28 08:17:10.28 spid75      A time-out occurred while waiting for buffer latch -- type 2, bp 06F2B004, page 1:4732880, stat 0x3c0040d, database id: 10, allocation unit Id: 72057594171097088, task 0x00ED9558 : 12, waittime 300, flags 0x3a, owning task 0x00FF28E0. Not continuing to wait.
+2010-01-28 08:17:10.29 spid75      A time-out occurred while waiting for buffer latch -- type 2, bp 06F518EC, page 1:4760248, stat 0x7c0040d, database id: 10, allocation unit Id: 72057594171097088, task 0x03DB18E8 : 9, waittime 300, flags 0x3a, owning task 0x03DCBE40. Not continuing to wait.
+2010-01-28 08:22:30.29 spid4s      SQL Server has encountered 71 occurrence(s) of I/O requests taking longer than 15 seconds to complete on file [M:\MSSQL\Data\SENZA2_Data.mdf] in database [SENZA] (10).  The OS file handle is 0x000005A8.  The offset of the latest long I/O is: 0x00000b5d5f0000
+2010-01-28 08:30:46.02 spid4s      SQL Server has encountered 17 occurrence(s) of I/O requests taking longer than 15 seconds to complete on file [M:\MSSQL\Data\SENZA2_Data.mdf] in database [SENZA] (10).  The OS file handle is 0x000005A8.  The offset of the latest long I/O is: 0x00000124000000
+

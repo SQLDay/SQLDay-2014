@@ -1,0 +1,43 @@
+﻿<deadlock>
+ <victim-list>
+  <victimProcess id="process342f498" />
+ </victim-list>
+ <process-list>
+  <process id="process342f498" taskpriority="0" logused="0" waitresource="OBJECT: 6:245575913:0 " waittime="661" ownerId="42082" transactionname="user_transaction" lasttranstarted="2013-10-29T20:28:17.120" XDES="0x4719d76a8" lockMode="IX" schedulerid="4" kpid="8932" status="suspended" spid="53" sbid="0" ecid="0" priority="0" trancount="3" lastbatchstarted="2013-10-29T20:29:29.990" lastbatchcompleted="2013-10-29T20:28:59.870" lastattention="1900-01-01T00:00:00.870" clientapp="Microsoft SQL Server Management Studio - Query" hostname="RYANTROYWIN8" hostpid="6752" loginname="NORTHAMERICA\bobward" isolationlevel="read committed (2)" xactid="42082" currentdb="6" lockTimeout="4294967295" clientoption1="671090784" clientoption2="390200">
+   <executionStack>
+    <frame procname="adhoc" line="1" sqlhandle="0x020000008174fa0948f4c368d7be574ffda5047a892ea3680000000000000000000000000000000000000000">
+delete from mytab    </frame>
+   </executionStack>
+   <inputbuf>
+delete from mytab
+   </inputbuf>
+  </process>
+  <process id="process341b868" taskpriority="0" logused="0" waitresource="OBJECT: 6:565577053:0 " waittime="3543" ownerId="42442" transactionname="user_transaction" lasttranstarted="2013-10-29T20:28:56.290" XDES="0x46e7103a8" lockMode="IX" schedulerid="2" kpid="6360" status="suspended" spid="52" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2013-10-29T20:29:27.117" lastbatchcompleted="2013-10-29T20:29:19.413" lastattention="1900-01-01T00:00:00.413" clientapp="Microsoft SQL Server Management Studio - Query" hostname="RYANTROYWIN8" hostpid="6752" loginname="NORTHAMERICA\bobward" isolationlevel="read committed (2)" xactid="42442" currentdb="6" lockTimeout="4294967295" clientoption1="671090784" clientoption2="390200">
+   <executionStack>
+    <frame procname="adhoc" line="1" sqlhandle="0x020000004386f12c20fc630c6809900556a0e18c15028a9f0000000000000000000000000000000000000000">
+delete from mytab2    </frame>
+   </executionStack>
+   <inputbuf>
+delete from mytab2
+   </inputbuf>
+  </process>
+ </process-list>
+ <resource-list>
+  <objectlock lockPartition="0" objid="245575913" subresource="FULL" dbid="6" objectname="mavsnbachampsiwish.dbo.mytab" id="lock46a9e8880" mode="S" associatedObjectId="245575913">
+   <owner-list>
+    <owner id="process341b868" mode="S" />
+   </owner-list>
+   <waiter-list>
+    <waiter id="process342f498" mode="IX" requestType="convert" />
+   </waiter-list>
+  </objectlock>
+  <objectlock lockPartition="0" objid="565577053" subresource="FULL" dbid="6" objectname="mavsnbachampsiwish.dbo.mytab2" id="lock464a12380" mode="S" associatedObjectId="565577053">
+   <owner-list>
+    <owner id="process342f498" mode="S" />
+   </owner-list>
+   <waiter-list>
+    <waiter id="process341b868" mode="IX" requestType="wait" />
+   </waiter-list>
+  </objectlock>
+ </resource-list>
+</deadlock>

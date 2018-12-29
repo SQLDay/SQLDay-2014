@@ -1,0 +1,17 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# SQL Server Management Studio Solution File, Format Version 11.00
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "Zasilanie DW", "Zasilanie DW.ssmssqlproj", "{58F2CACC-CAB2-4149-B1D9-3ED85DEB407D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Default|Default = Default|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58F2CACC-CAB2-4149-B1D9-3ED85DEB407D}.Default|Default.ActiveCfg = Default
+		{7888ABF8-268A-4612-BEA4-16DDD3E4E60D}.Default|Default.ActiveCfg = Default
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

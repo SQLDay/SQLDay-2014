@@ -1,0 +1,39 @@
+1. run mavsnbachampsiwishddl.sql to create the database and populate it
+2. Run stresstemp.cmd
+3. Observe latch waits are on SGAM and PFS pages. Observe total time to run the stress (100 users with 100 iterations). 
+It should take about 30 seconds or more
+4. Add in 5 new tempdb data files
+5. Run stresstemp.cmd again. What kind of waits now? Less waits and only pretty much for PFS. Note the total time is reduced almost in half (15-17 secs)
+6. In dmvqueries.sql look at this query
+
+select wait_type, waiting_tasks_count
+from sys.dm_os_wait_stats
+where wait_time_ms > 0
+and wait_type like '%LATCH%'
+
+You can compare these wait values before and after adding tempdb files and see the reduction
+
+7. Note that both runs there are waits called LATCH_UP and LATCH_SH but don't have the word PAGE in front of them?
+8. If you run the following query from dmvqueries.sql
+
+select * from sys.dm_os_latch_stats
+where wait_time_ms > 0
+
+you will notice there is a LATCH type called BUFFER. That is for any latch associated with a database page. The other latches what we call
+non-BUF latches. These are latches to protect other memory structures. In this case, you may see the following latches
+
+ACCESS_METHODS_HOBT_COUNT                                    7                      46                   16
+ACCESS_METHODS_HOBT_VIRTUAL_ROOT                             296                    996                  16
+
+
+9. These latches are protect memory structures associated with internal structures associated with allocations
+
+10. Now run this query
+
+select * from sys.dm_os_latch_stats
+
+All of these types of latches are associated with various memory structures within the engine.
+
+DEMO: Show quick example of tempdb stress and the different types of latch waits on allocation. If time, expand tempdb and show overall time goes down.
+
+QUESTION: What is the resource_address for a PAGELATCH? It is the latch class offset within the BUF structure for that page. How do I know this? Show them the resource_address and then dump out the page in question to see the offset. It should be 0x80 offset into the BUF structure.

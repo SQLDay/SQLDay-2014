@@ -1,0 +1,4 @@
+select virtual_address_space_committed_kb, 
+locked_page_allocations_kb, (virtual_address_space_committed_kb+locked_page_allocations_kb) as total_committed_by_node
+from sys.dm_os_memory_nodes
+go

@@ -1,0 +1,1 @@
+ostress -E -Q"exec p_outer" -dtempdb -n100 -r100000 -q

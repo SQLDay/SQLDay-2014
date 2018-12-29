@@ -1,0 +1,1 @@
+ostress -E -S. -irepro.sql -n20 -q

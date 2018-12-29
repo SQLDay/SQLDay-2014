@@ -1,0 +1,1 @@
+ostress -E -icursors.sql -q -n1 -T42 -T41 -r100000

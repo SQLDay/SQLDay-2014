@@ -1,0 +1,1 @@
+ostress -E -isqlcpudemo.sql -S. -n10 -q

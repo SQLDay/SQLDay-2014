@@ -1,0 +1,4 @@
+2013-08-12 19:43:55.970 Backup Error: 3041, Severity: 16, State: 1.
+2013-08-12 19:43:55.970 Backup BACKUP failed to complete the command BACKUP DATABASE ScrubbedDB. Check the backup application log for detailed messages.
+2013-08-12 19:43:55.970 Backup Error: 18210, Severity: 16, State: 1.
+2013-08-12 19:43:55.970 Backup BackupIoRequest::ReportIoError: write failure on backup device 'I_AM_A_VDI_DEVICE'. Operating system error 995(The I/O operation has been aborted because of either a thread exit or an application request.).  

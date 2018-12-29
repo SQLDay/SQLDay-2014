@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<SqlWorkbenchSqlProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="CDC_scripts">
+  <Items>
+    <LogicalFolder Name="Connections" Type="2" Sorted="true">
+      <Items>
+        <ConnectionNode Name="(local)\DEV2012:KNMSI\kamiln">
+          <Created>2014-04-14T19:05:15.3929599+02:00</Created>
+          <Type>SQL</Type>
+          <Server>(local)\DEV2012</Server>
+          <UserName />
+          <Authentication>Windows Authentication</Authentication>
+          <InitialDB />
+          <LoginTimeout>15</LoginTimeout>
+          <ExecutionTimeout>0</ExecutionTimeout>
+          <ConnectionProtocol>NotSpecified</ConnectionProtocol>
+          <ApplicationName>Microsoft SQL Server Management Studio - Query</ApplicationName>
+        </ConnectionNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Queries" Type="0" Sorted="true">
+      <Items>
+        <FileNode Name="00-Create DB and Person table.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>00-Create DB and Person table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="01-CDC_enable.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>01-CDC_enable.sql</FullPath>
+        </FileNode>
+        <FileNode Name="02-cdc_demo.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>02-cdc_demo.sql</FullPath>
+        </FileNode>
+        <FileNode Name="03-cdc_jobs.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>03-cdc_jobs.sql</FullPath>
+        </FileNode>
+        <FileNode Name="04-cdc_maintanance.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>04-cdc_maintanance.sql</FullPath>
+        </FileNode>
+        <FileNode Name="05-Person table.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>05-Person table.sql</FullPath>
+        </FileNode>
+        <FileNode Name="10-PersonCopy-Prepare.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>10-PersonCopy-Prepare.sql</FullPath>
+        </FileNode>
+        <FileNode Name="11-PersonCopy-SSIS.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>11-PersonCopy-SSIS.sql</FullPath>
+        </FileNode>
+        <FileNode Name="21-DimPerson.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>21-DimPerson.sql</FullPath>
+        </FileNode>
+        <FileNode Name="22-SCD with net changes.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>22-SCD with net changes.sql</FullPath>
+        </FileNode>
+        <FileNode Name="23-SCD with All mode.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>23-SCD with All mode.sql</FullPath>
+        </FileNode>
+        <FileNode Name="31-BulkUpdate.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>31-BulkUpdate.sql</FullPath>
+        </FileNode>
+        <FileNode Name="80-Performance.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>80-Performance.sql</FullPath>
+        </FileNode>
+        <FileNode Name="99-CDC-disable.sql">
+          <AssociatedConnectionMoniker>8c91a03d-f9b4-46c0-a305-b5dcc79ff907:(local)\DEV2012:True</AssociatedConnectionMoniker>
+          <AssociatedConnSrvName>(local)\DEV2012</AssociatedConnSrvName>
+          <AssociatedConnUserName />
+          <FullPath>99-CDC-disable.sql</FullPath>
+        </FileNode>
+      </Items>
+    </LogicalFolder>
+    <LogicalFolder Name="Miscellaneous" Type="3" Sorted="true">
+      <Items />
+    </LogicalFolder>
+  </Items>
+</SqlWorkbenchSqlProject>

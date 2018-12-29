@@ -1,0 +1,1 @@
+start ostress -S. -ULakers -PUserPwd -iworkload.sql -n25 -q -olakers

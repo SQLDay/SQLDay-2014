@@ -1,0 +1,1485 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/25/2014 7:53:41 AM"
+  DTS:CreationName="SSIS.Package.3"
+  DTS:CreatorComputerName="KNMOBILE64"
+  DTS:CreatorName="KNMOBILE64\kamiln"
+  DTS:DTSID="{3C3D8088-8457-4EB7-9B87-D5D577CF7144}"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:LastModifiedProductVersion="11.0.3369.0"
+  DTS:LocaleID="1045"
+  DTS:ObjectName="02 Processing PersonCopy - Net mode"
+  DTS:PackageType="5"
+  DTS:VersionBuild="29"
+  DTS:VersionGUID="{C7C5E9AE-FE2B-4A36-B96E-AF8748C548A1}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B3027657-A8D2-469E-8573-AC3184A68DE5}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CDC_State">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Get CDC Processing Range"
+      DTS:CreationName="Attunity.SqlServer.CDCControlTask.CdcControlTask, Attunity.SqlServer.CDCControlTask, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c"
+      DTS:Description="CDC Control Task"
+      DTS:DTSID="{12AA1BAB-49F0-41B0-B9CA-4375919D402B}"
+      DTS:ExecutableType="Attunity.SqlServer.CDCControlTask.CdcControlTask, Attunity.SqlServer.CDCControlTask, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Get CDC Processing Range"
+      DTS:TaskContact="Attunity Ltd.; All Rights Reserved; http://www.attunity.com;"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <CDCControlTask
+          Connection="CDC.Net"
+          TaskOperation="GetProcessingRange"
+          OperationParameter=""
+          StateConnection="CDC.Net"
+          StateVariable="User::CDC_State"
+          AutomaticStatePersistence="True"
+          StateName="CDC_State"
+          StateTable="[dbo].[cdc_states]"
+          CommandTimeout="30"
+          ChangeDetectionRetryInterval="10"
+          ChangeDetectionTimeout="60" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Mark Processed CDC Range"
+      DTS:CreationName="Attunity.SqlServer.CDCControlTask.CdcControlTask, Attunity.SqlServer.CDCControlTask, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c"
+      DTS:Description="CDC Control Task"
+      DTS:DTSID="{55B72FAB-165B-46F6-B6E3-2E8CCD6D9400}"
+      DTS:ExecutableType="Attunity.SqlServer.CDCControlTask.CdcControlTask, Attunity.SqlServer.CDCControlTask, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Mark Processed CDC Range"
+      DTS:TaskContact="Attunity Ltd.; All Rights Reserved; http://www.attunity.com;"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <CDCControlTask
+          Connection="CDC.Net"
+          TaskOperation="MarkProcessedRange"
+          OperationParameter=""
+          StateConnection="CDC.Net"
+          StateVariable="User::CDC_State"
+          AutomaticStatePersistence="True"
+          StateName="CDC_State"
+          StateTable="[dbo].[cdc_states]"
+          CommandTimeout="30"
+          ChangeDetectionRetryInterval="10"
+          ChangeDetectionTimeout="60" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Process Changes"
+      DTS:CreationName="{5918251B-2970-45A4-AB5F-01C3C588FE5A}"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{D7D529BA-A660-4C86-8EA4-C6BDDBC8E959}"
+      DTS:ExecutableType="{5918251B-2970-45A4-AB5F-01C3C588FE5A}"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Process Changes">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Process Changes\CDC Splitter Person"
+              componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
+              contactInfo="Attunity Ltd.; All Rights Reserved; http://www.attunity.com;"
+              description="Directs a stream of net change records into different outputs based on the type of the change (Insert, Delete and Update). This allows specific handling for different types of change records."
+              name="CDC Splitter Person"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Attunity.SqlServer.CDCSplit.CdcSplitterComponent, Attunity.SqlServer.CDCSplit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Process Changes\CDC Splitter Person.Inputs[Input]"
+                  errorOrTruncationOperation="Operation of the changed row is not a valid one"
+                  errorRowDisposition="FailComponent"
+                  name="Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[__$start_lsn]"
+                      cachedDataType="bytes"
+                      cachedLength="10"
+                      cachedName="__$start_lsn"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$start_lsn]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[__$operation]"
+                      cachedDataType="i4"
+                      cachedName="__$operation"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$operation]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[__$update_mask]"
+                      cachedDataType="bytes"
+                      cachedLength="128"
+                      cachedName="__$update_mask"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$update_mask]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[BusinessEntityID]"
+                      cachedDataType="i4"
+                      cachedName="BusinessEntityID"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[BusinessEntityID]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[PersonType]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="PersonType"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[PersonType]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[NameStyle]"
+                      cachedDataType="bool"
+                      cachedName="NameStyle"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[NameStyle]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="Title"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Title]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[FirstName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="FirstName"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[FirstName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[MiddleName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="MiddleName"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[MiddleName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[LastName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="LastName"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[LastName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[Suffix]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="Suffix"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Suffix]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[EmailPromotion]"
+                      cachedDataType="i4"
+                      cachedName="EmailPromotion"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[EmailPromotion]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[rowguid]"
+                      cachedDataType="guid"
+                      cachedName="rowguid"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[rowguid]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[ModifiedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ModifiedDate"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[ModifiedDate]" />
+                    <inputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Inputs[Input].Columns[__$seqval]"
+                      cachedDataType="bytes"
+                      cachedLength="10"
+                      cachedName="__$seqval"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$seqval]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Process Changes\CDC Splitter Person.Outputs[InsertOutput]"
+                  exclusionGroup="1"
+                  name="InsertOutput"
+                  synchronousInputId="Package\Process Changes\CDC Splitter Person.Inputs[Input]">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Output type - Insert."
+                      name="OutputType"
+                      typeConverter="Attunity.SqlServer.CDCSplit.OutputType, Attunity.SqlServer.CDCSplit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c">0</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Process Changes\CDC Splitter Person.Outputs[DeleteOutput]"
+                  exclusionGroup="1"
+                  name="DeleteOutput"
+                  synchronousInputId="Package\Process Changes\CDC Splitter Person.Inputs[Input]">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Output type - Delete."
+                      name="OutputType"
+                      typeConverter="Attunity.SqlServer.CDCSplit.OutputType, Attunity.SqlServer.CDCSplit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Process Changes\CDC Splitter Person.Outputs[UpdateOutput]"
+                  exclusionGroup="1"
+                  name="UpdateOutput"
+                  synchronousInputId="Package\Process Changes\CDC Splitter Person.Inputs[Input]">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Output type - Update."
+                      name="OutputType"
+                      typeConverter="Attunity.SqlServer.CDCSplit.OutputType, Attunity.SqlServer.CDCSplit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c">1</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Process Changes\CDC Splitter Person.Outputs[ErrorOutput]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ErrorOutput"
+                  synchronousInputId="Package\Process Changes\CDC Splitter Person.Inputs[Input]">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Output type - Error."
+                      name="OutputType"
+                      typeConverter="Attunity.SqlServer.CDCSplit.OutputType, Attunity.SqlServer.CDCSplit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c">3</property>
+                  </properties>
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Outputs[ErrorOutput].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\CDC Splitter Person.Outputs[ErrorOutput].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Process Changes\CDC Splitter Person.Outputs[ErrorOutput].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\CDC Splitter Person.Outputs[ErrorOutput].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Process Changes\Changes for Table Person"
+              componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
+              contactInfo="Attunity Ltd.; All Rights Reserved; http://www.attunity.com;"
+              description="Reads change data from a SQL Server change table making it available for processing by downstream data-flow components. Only changes within the current processing range determined by the CDC Control task are read"
+              name="Changes for Table Person"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="An SSIS string package variable to store the CDC state of the current CDC state."
+                  expressionType="Notify"
+                  name="StateVariable"
+                  typeConverter="Attunity.SqlServer.CDCSrc.PackageVariablesTypeConverter, Attunity.SqlServer.CDCSrc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c">User::CDC_State</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the content of the metadata columns and the rows returned. Modes starting with ‘All’ return all changes and modes starting with ‘Net’ return net changes."
+                  expressionType="Notify"
+                  name="CDCProcessingMode"
+                  typeConverter="Attunity.SqlServer.CDCSrc.CdcProcessingMode, Attunity.SqlServer.CDCSrc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c">0</property>
+                <property
+                  dataType="System.String"
+                  description="The name of the CDC capture instance. By default the capture instance name is in the form of &quot;&lt;owner&gt;_&lt;table&gt;&quot;. The actual table that stores the changes is the CDC table named &quot;cdc&quot;.&quot;&lt;capture-instance&gt;_CT&quot;"
+                  expressionType="Notify"
+                  name="CaptureInstance">dbo_Person</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time out."
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="If true, a special output column called ‘__$reprocessing ’ is added. This output column is true for each data row during the initial processing range, or when the previous CDC run&#xA;was stopped without finishing. The default value is false (the __$reprocessing output column is not generated). This special output column allows the SSIS developer to handle consistency errors differently when working on the Initial Processing Range or the previous CDC run was stopped."
+                  expressionType="Notify"
+                  name="ReprocessingIndication">false</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Attunity.SqlServer.CDCSrc.CdcSourceComponent, Attunity.SqlServer.CDCSrc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=aa342389a732e31c</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Process Changes\Changes for Table Person.Connections[Connection]"
+                  connectionManagerID="{698D02E6-E927-4A22-8744-DBDD53B54545}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[CDC.Net]"
+                  name="Connection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Process Changes\Changes for Table Person.Outputs[Output]"
+                  name="Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$start_lsn]"
+                      dataType="bytes"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[__$start_lsn]"
+                      length="10"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$start_lsn]"
+                      name="__$start_lsn"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$operation]"
+                      dataType="i4"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[__$operation]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$operation]"
+                      name="__$operation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$update_mask]"
+                      dataType="bytes"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[__$update_mask]"
+                      length="128"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$update_mask]"
+                      name="__$update_mask"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[BusinessEntityID]"
+                      dataType="i4"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[BusinessEntityID]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[BusinessEntityID]"
+                      name="BusinessEntityID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[PersonType]"
+                      dataType="wstr"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[PersonType]"
+                      length="2"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[PersonType]"
+                      name="PersonType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[NameStyle]"
+                      dataType="bool"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[NameStyle]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[NameStyle]"
+                      name="NameStyle"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Title]"
+                      dataType="wstr"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[Title]"
+                      length="8"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Title]"
+                      name="Title"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[FirstName]"
+                      dataType="wstr"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[FirstName]"
+                      length="50"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[FirstName]"
+                      name="FirstName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[MiddleName]"
+                      dataType="wstr"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[MiddleName]"
+                      length="50"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[MiddleName]"
+                      name="MiddleName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[LastName]"
+                      dataType="wstr"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[LastName]"
+                      length="50"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[LastName]"
+                      name="LastName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Suffix]"
+                      dataType="wstr"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[Suffix]"
+                      length="10"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Suffix]"
+                      name="Suffix"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[EmailPromotion]"
+                      dataType="i4"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[EmailPromotion]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[EmailPromotion]"
+                      name="EmailPromotion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[rowguid]"
+                      dataType="guid"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[rowguid]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[rowguid]"
+                      name="rowguid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[ModifiedDate]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[ModifiedDate]"
+                      name="ModifiedDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$seqval]"
+                      dataType="bytes"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[__$seqval]"
+                      length="10"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[__$seqval]"
+                      name="__$seqval"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[__$start_lsn]"
+                      dataType="bytes"
+                      length="10"
+                      name="__$start_lsn" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[__$operation]"
+                      dataType="i4"
+                      name="__$operation" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[__$update_mask]"
+                      dataType="bytes"
+                      length="128"
+                      name="__$update_mask" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[BusinessEntityID]"
+                      dataType="i4"
+                      name="BusinessEntityID" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[PersonType]"
+                      dataType="wstr"
+                      length="2"
+                      name="PersonType" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[NameStyle]"
+                      dataType="bool"
+                      name="NameStyle" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="8"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[FirstName]"
+                      dataType="wstr"
+                      length="50"
+                      name="FirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[MiddleName]"
+                      dataType="wstr"
+                      length="50"
+                      name="MiddleName" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[LastName]"
+                      dataType="wstr"
+                      length="50"
+                      name="LastName" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[Suffix]"
+                      dataType="wstr"
+                      length="10"
+                      name="Suffix" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[EmailPromotion]"
+                      dataType="i4"
+                      name="EmailPromotion" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[rowguid]"
+                      dataType="guid"
+                      name="rowguid" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      name="ModifiedDate" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[Output].ExternalColumns[__$seqval]"
+                      dataType="bytes"
+                      length="10"
+                      name="__$seqval" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput]"
+                  isErrorOut="true"
+                  name="ErrorOutput">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[__$start_lsn]"
+                      dataType="bytes"
+                      length="10"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[__$start_lsn]"
+                      name="__$start_lsn" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[__$operation]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[__$operation]"
+                      name="__$operation" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[__$update_mask]"
+                      dataType="bytes"
+                      length="128"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[__$update_mask]"
+                      name="__$update_mask" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[BusinessEntityID]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[BusinessEntityID]"
+                      name="BusinessEntityID" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[PersonType]"
+                      dataType="wstr"
+                      length="2"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[PersonType]"
+                      name="PersonType" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[NameStyle]"
+                      dataType="bool"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[NameStyle]"
+                      name="NameStyle" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[Title]"
+                      dataType="wstr"
+                      length="8"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[Title]"
+                      name="Title" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[FirstName]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[FirstName]"
+                      name="FirstName" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[MiddleName]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[MiddleName]"
+                      name="MiddleName" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[LastName]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[LastName]"
+                      name="LastName" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[Suffix]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[Suffix]"
+                      name="Suffix" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[EmailPromotion]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[EmailPromotion]"
+                      name="EmailPromotion" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[rowguid]"
+                      dataType="guid"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[rowguid]"
+                      name="rowguid" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[ModifiedDate]"
+                      name="ModifiedDate" />
+                    <outputColumn
+                      refId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[__$seqval]"
+                      dataType="bytes"
+                      length="10"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[ErrorOutput].Columns[__$seqval]"
+                      name="__$seqval" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Process Changes\Person Delete"
+              componentClassID="{93FFEC66-CBC8-4C7F-9C6A-CB1C17A7567D}"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="Person Delete"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">delete from dbo.PersonCopy where BusinessEntityID = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1250</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Process Changes\Person Delete.Connections[OleDbConnection]"
+                  connectionManagerID="{0623828D-DCD9-480B-B429-06EDF563F0C1}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[CDC.OleDb]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Process Changes\Person Delete.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Process Changes\Person Delete.Inputs[OLE DB Command Input].Columns[BusinessEntityID]"
+                      cachedDataType="i4"
+                      cachedName="BusinessEntityID"
+                      externalMetadataColumnId="Package\Process Changes\Person Delete.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[BusinessEntityID]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Delete.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="i4"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Process Changes\Person Delete.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\Process Changes\Person Delete.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Process Changes\Person Delete.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\Process Changes\Person Delete.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Process Changes\Person Delete.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Person Delete.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Process Changes\Person Delete.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Person Delete.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Process Changes\Person Insert"
+              componentClassID="{874F7595-FB5F-40FF-96AF-FBFF8250E3EF}"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+              name="Person Insert"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The Destination database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version= 11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">"dbo"."PersonCopy"</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.SqlServer.Dts.Pipeline.ADONETDestination, Microsoft.SqlServer.ADONETDest, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Process Changes\Person Insert.Connections[IDbConnection]"
+                  connectionManagerID="{698D02E6-E927-4A22-8744-DBDD53B54545}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[CDC.Net]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[BusinessEntityID]"
+                      cachedDataType="i4"
+                      cachedName="BusinessEntityID"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[BusinessEntityID]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[BusinessEntityID]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[PersonType]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="PersonType"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[PersonType]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[PersonType]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[NameStyle]"
+                      cachedDataType="bool"
+                      cachedName="NameStyle"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[NameStyle]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[NameStyle]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="Title"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[Title]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Title]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[FirstName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="FirstName"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[FirstName]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[FirstName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[MiddleName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="MiddleName"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[MiddleName]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[MiddleName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[LastName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="LastName"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[LastName]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[LastName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[Suffix]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="Suffix"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[Suffix]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Suffix]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[EmailPromotion]"
+                      cachedDataType="i4"
+                      cachedName="EmailPromotion"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[EmailPromotion]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[EmailPromotion]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].Columns[ModifiedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ModifiedDate"
+                      externalMetadataColumnId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[ModifiedDate]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[ModifiedDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[BusinessEntityID]"
+                      dataType="i4"
+                      name="BusinessEntityID" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[PersonType]"
+                      dataType="wstr"
+                      length="2"
+                      name="PersonType" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[NameStyle]"
+                      dataType="bool"
+                      name="NameStyle" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[Title]"
+                      dataType="wstr"
+                      length="8"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[FirstName]"
+                      dataType="wstr"
+                      length="50"
+                      name="FirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[MiddleName]"
+                      dataType="wstr"
+                      length="50"
+                      name="MiddleName" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[LastName]"
+                      dataType="wstr"
+                      length="50"
+                      name="LastName" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[Suffix]"
+                      dataType="wstr"
+                      length="10"
+                      name="Suffix" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[EmailPromotion]"
+                      dataType="i4"
+                      name="EmailPromotion" />
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input].ExternalColumns[ModifiedDate]"
+                      dataType="dbTimeStamp"
+                      name="ModifiedDate" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Process Changes\Person Insert.Outputs[ADO NET Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Process Changes\Person Insert.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Person Insert.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Process Changes\Person Insert.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Person Insert.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Process Changes\Person Update"
+              componentClassID="{93FFEC66-CBC8-4C7F-9C6A-CB1C17A7567D}"
+              contactInfo="OLE DB Command;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Runs an SQL statement for each row in a data flow. For example, call a 'new employee setup' stored procedure for each row in the 'new employees' table. Note: running an SQL statement for each row of a large data flow may take a long time."
+              name="Person Update"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">UPDATE [dbo].[PersonCopy]
+   SET 
+       [PersonType] = ?
+      ,[NameStyle] = ?
+      ,[Title] = ?
+      ,[FirstName] = ?
+      ,[MiddleName] = ?
+      ,[LastName] = ?
+      ,[Suffix] = ?
+      ,[EmailPromotion] = ?
+      ,[ModifiedDate] = ?
+ where [BusinessEntityID] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1250</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Process Changes\Person Update.Connections[OleDbConnection]"
+                  connectionManagerID="{0623828D-DCD9-480B-B429-06EDF563F0C1}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[CDC.OleDb]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input]"
+                  errorOrTruncationOperation="Command Execution"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Command Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[PersonType]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="PersonType"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[PersonType]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[NameStyle]"
+                      cachedDataType="bool"
+                      cachedName="NameStyle"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[NameStyle]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[Title]"
+                      cachedDataType="wstr"
+                      cachedLength="8"
+                      cachedName="Title"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Title]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[FirstName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="FirstName"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[FirstName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[MiddleName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="MiddleName"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[MiddleName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[LastName]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="LastName"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[LastName]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[Suffix]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="Suffix"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[Suffix]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[EmailPromotion]"
+                      cachedDataType="i4"
+                      cachedName="EmailPromotion"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[EmailPromotion]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[BusinessEntityID]"
+                      cachedDataType="i4"
+                      cachedName="BusinessEntityID"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_9]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[BusinessEntityID]" />
+                    <inputColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].Columns[ModifiedDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="ModifiedDate"
+                      externalMetadataColumnId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_8]"
+                      lineageId="Package\Process Changes\Changes for Table Person.Outputs[Output].Columns[ModifiedDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_0]"
+                      dataType="wstr"
+                      length="2"
+                      name="Param_0">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_1]"
+                      dataType="bool"
+                      name="Param_1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_2]"
+                      dataType="wstr"
+                      length="8"
+                      name="Param_2">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_3]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_3">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_4]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_5]"
+                      dataType="wstr"
+                      length="50"
+                      name="Param_5">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_6]"
+                      dataType="wstr"
+                      length="10"
+                      name="Param_6">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_7]"
+                      dataType="i4"
+                      name="Param_7">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">81</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_8]"
+                      dataType="dbTimeStamp"
+                      name="Param_8">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                    <externalMetadataColumn
+                      refId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input].ExternalColumns[Param_9]"
+                      dataType="i4"
+                      name="Param_9">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Parameter information.  Matches OLE DB's DBPARAMFLAGSENUM values."
+                          name="DBParamInfoFlags">65</property>
+                      </properties>
+                    </externalMetadataColumn>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Process Changes\Person Update.Outputs[OLE DB Command Output]"
+                  exclusionGroup="1"
+                  name="OLE DB Command Output"
+                  synchronousInputId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Process Changes\Person Update.Outputs[OLE DB Command Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Command Error Output"
+                  synchronousInputId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Process Changes\Person Update.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Person Update.Outputs[OLE DB Command Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Process Changes\Person Update.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Process Changes\Person Update.Outputs[OLE DB Command Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Process Changes.Paths[DeleteOutput]"
+              endId="Package\Process Changes\Person Delete.Inputs[OLE DB Command Input]"
+              name="DeleteOutput"
+              startId="Package\Process Changes\CDC Splitter Person.Outputs[DeleteOutput]" />
+            <path
+              refId="Package\Process Changes.Paths[InsertOutput]"
+              endId="Package\Process Changes\Person Insert.Inputs[ADO NET Destination Input]"
+              name="InsertOutput"
+              startId="Package\Process Changes\CDC Splitter Person.Outputs[InsertOutput]" />
+            <path
+              refId="Package\Process Changes.Paths[Output]"
+              endId="Package\Process Changes\CDC Splitter Person.Inputs[Input]"
+              name="Output"
+              startId="Package\Process Changes\Changes for Table Person.Outputs[Output]" />
+            <path
+              refId="Package\Process Changes.Paths[UpdateOutput]"
+              endId="Package\Process Changes\Person Update.Inputs[OLE DB Command Input]"
+              name="UpdateOutput"
+              startId="Package\Process Changes\CDC Splitter Person.Outputs[UpdateOutput]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{42D4E577-ECF3-43B4-9D6E-63D3E826C64D}"
+      DTS:From="Package\Get CDC Processing Range"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Process Changes" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{A0EED1E9-585B-42EE-8D0A-056070473033}"
+      DTS:From="Package\Process Changes"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Mark Processed CDC Range" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="sql11">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="207,42"
+          Id="Package\Get CDC Processing Range"
+          TopLeft="377.643491287346,124.91672415161" />
+        <NodeLayout
+          Size="211,42"
+          Id="Package\Mark Processed CDC Range"
+          TopLeft="381.762885395943,375.749175758178" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Process Changes"
+          TopLeft="402.653706917368,262.713921304843" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="481.898599102357,166.91672415161">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,95.7971971532336"
+              Start="0,0"
+              End="0,88.2971971532336">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,88.2971971532336" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="484.958296156655,304.713921304843">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,71.0352544533353"
+              Start="0,0"
+              End="0,63.5352544533353">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,63.5352544533353" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Process Changes">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Process Changes\Person Delete"
+          TopLeft="281,330" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Process Changes\Changes for Table Person"
+          TopLeft="228,5.5" />
+        <NodeLayout
+          Size="144,42"
+          Id="Package\Process Changes\Person Insert"
+          TopLeft="118.428014714986,235.489464702077" />
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Process Changes\Person Update"
+          TopLeft="351.441344866584,242.106108912864" />
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Process Changes\CDC Splitter Person"
+          TopLeft="242.5,107.5" />
+        <EdgeLayout
+          Id="Package\Process Changes.Paths[DeleteOutput]"
+          TopLeft="330,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,180.5"
+              Start="0,0"
+              End="0,173">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,173" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.94638671875,80.6953125,59.8927734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Process Changes.Paths[UpdateOutput]"
+          TopLeft="356.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="69.9413448665841,92.6061089128641"
+              Start="0,0"
+              End="69.9413448665841,85.1061089128641">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.5516180471408" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,33.5516180471408"
+                    Point2="0,37.5516180471408"
+                    Point3="4,37.5516180471408" />
+                  <mssgle:LineSegment
+                    End="65.9413448665841,37.5516180471408" />
+                  <mssgle:CubicBezierSegment
+                    Point1="65.9413448665841,37.5516180471408"
+                    Point2="69.9413448665841,37.5516180471408"
+                    Point3="69.9413448665841,41.5516180471408" />
+                  <mssgle:LineSegment
+                    End="69.9413448665841,85.1061089128641" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="3.34034040204205,42.5516180471408,63.2606640625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Process Changes.Paths[Output]"
+          TopLeft="329,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,18.25,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Process Changes.Paths[InsertOutput]"
+          TopLeft="301.5,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-111.071985285013,85.989464702077"
+              Start="0,0"
+              End="-111.071985285013,78.489464702077">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.8685801884711" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,30.8685801884711"
+                    Point2="0,34.8685801884711"
+                    Point3="-4,34.8685801884711" />
+                  <mssgle:LineSegment
+                    End="-107.071985285013,34.8685801884711" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-107.071985285013,34.8685801884711"
+                    Point2="-111.071985285013,34.8685801884711"
+                    Point3="-111.071985285013,38.8685801884711" />
+                  <mssgle:LineSegment
+                    End="-111.071985285013,78.489464702077" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-93.2410317050067,39.8685801884711,57.9559765625,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Trickle-feed processing package&#xA;http://msdn.microsoft.com/en-us/library/hh231087.aspx"
+          ParentId="Package\Process Changes"
+          FontInfo="{assembly:Null}"
+          Size="328,56"
+          Id="635e9ad2-8528-4f00-a973-b6f0b5f521c8"
+          TopLeft="571.471400211069,1007.96963251361" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Process Changes\Person Insert">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Process Changes\Changes for Table Person">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

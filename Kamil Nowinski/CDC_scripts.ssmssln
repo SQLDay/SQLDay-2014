@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# SQL Server Management Studio Solution File, Format Version 11.00
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "CDC_scripts", "CDC_scripts\CDC_scripts.ssmssqlproj", "{B9B87F68-96BE-49FD-B370-6D59108887CB}"
+EndProject
+Project("{4F2E2C19-372F-40D8-9FA7-9D2138C6997A}") = "CT_scripts", "CT_scripts\CT_scripts.ssmssqlproj", "{2A6A599D-028F-4426-947F-E9AE29F84A0F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Default|Default = Default|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9B87F68-96BE-49FD-B370-6D59108887CB}.Default|Default.ActiveCfg = Default
+		{9B17EF74-2290-44D8-9799-3F8C672F5A4A}.Default|Default.ActiveCfg = Default
+		{2A6A599D-028F-4426-947F-E9AE29F84A0F}.Default|Default.ActiveCfg = Default
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

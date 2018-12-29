@@ -1,0 +1,1 @@
+windbg -y srv*c:\public_symbols -pn sqlservr.exe

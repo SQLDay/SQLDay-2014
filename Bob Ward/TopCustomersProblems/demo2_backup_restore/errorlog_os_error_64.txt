@@ -1,0 +1,4 @@
+2012-08-08 12:46:24.150 spid64       Error: 18210, Severity: 16, State: 1.
+2012-08-08 12:46:24.150 spid64       BackupMedium::ReportIoError: write failure on backup device '\\1.1.1.10\scrubbed\scrubbed\scrubbed_name.bak'. Operating system error 64(The specified network name is no longer available.).
+2012-08-08 12:46:24.150 Backup       Error: 3041, Severity: 16, State: 1.
+2012-08-08 12:46:24.150 Backup       BACKUP failed to complete the command BACKUP DATABASE ScrubbedNameDB. Check the backup application log for detailed messages.

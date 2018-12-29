@@ -1,0 +1,1 @@
+ostress -E -Q"exec tempproc 50" -dmavsnbachampsiwish -n100 -r50 -q -S.

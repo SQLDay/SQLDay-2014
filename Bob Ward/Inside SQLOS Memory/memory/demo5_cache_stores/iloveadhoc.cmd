@@ -1,0 +1,1 @@
+ostress -E -iiloveadhoc.sql -q

@@ -1,0 +1,1 @@
+sqlcmd -E -icleanup_setup_hang.sql -S.
